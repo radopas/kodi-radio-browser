@@ -90,7 +90,7 @@ def downloadFile(uri, param):
     """
     paramEncoded = None
     if param != None:
-        paramEncoded = json.dumps(param).encode("utf-8")
+        paramEncoded = json.dumps(param)
         xbmc.log('Request to ' + uri + ' Params: ' + ','.join(param))
     else:
         xbmc.log('Request to ' + uri)
@@ -117,16 +117,16 @@ def downloadApiFile(path, param):
     i = 0
     for server_base in servers:
         xbmc.log('Random server: ' + server_base + ' Try: ' + str(i))
-        uri = server_base + path
+        uri = server_base + urllib.parse.quote(path)
 
         try:
             data = downloadFile(uri, param)
             return data
         except Exception as e:
-            xbmc.log("Unable to download from api url: " + uri, xbmc.LOGERROR)
+            xbmc.log("Unable to download from api url: " + uri + "->" + e.__str__(), xbmc.LOGERROR)
             pass
         i += 1
-    return {}
+    return ""
 
 def addPlayableLink(data):
     dataDecoded = json.loads(data)
