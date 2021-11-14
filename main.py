@@ -163,6 +163,13 @@ else:
 mode = args.get('mode', None)
 
 if mode is None:
+    if len(my_stations) > 0:
+        # if there is any elements in My stations, then put the list on top, else it is at the end
+        localUrl = build_url({'mode': 'mystations'})
+        li = xbmcgui.ListItem(LANGUAGE(32008))
+        li.setArt({"icon": 'DefaultFolder.png'})
+        xbmcplugin.addDirectoryItem(handle=addon_handle, url=localUrl, listitem=li, isFolder=True)
+
     localUrl = build_url({'mode': 'stations', 'url': '/json/stations/topclick/100'})
     li = xbmcgui.ListItem(LANGUAGE(32000))
     li.setArt({'icon':'DefaultFolder.png'})
@@ -198,10 +205,11 @@ if mode is None:
     li.setArt({'icon':'DefaultFolder.png'})    
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=localUrl, listitem=li, isFolder=True)
 
-    localUrl = build_url({'mode': 'mystations'})
-    li = xbmcgui.ListItem(LANGUAGE(32008))
-    li.setArt({'icon':'DefaultFolder.png'})    
-    xbmcplugin.addDirectoryItem(handle=addon_handle, url=localUrl, listitem=li, isFolder=True)
+    if len(my_stations) == 0:
+        localUrl = build_url({'mode': 'mystations'})
+        li = xbmcgui.ListItem(LANGUAGE(32008))
+        li.setArt({'icon':'DefaultFolder.png'})
+        xbmcplugin.addDirectoryItem(handle=addon_handle, url=localUrl, listitem=li, isFolder=True)
 
     xbmcplugin.endOfDirectory(addon_handle)
 
