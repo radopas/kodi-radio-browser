@@ -1,6 +1,6 @@
 import sys
-import urllib.request, urllib.parse, urllib.error
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.error
 import urllib.parse
 import xbmcgui
 import xbmcplugin
@@ -8,6 +8,7 @@ import xbmcaddon
 import xbmcvfs
 import json
 import base64
+import xbmc
 
 addonID = 'plugin.audio.radiobrowser'
 addon = xbmcaddon.Addon(id=addonID)
@@ -18,7 +19,7 @@ args = urllib.parse.parse_qs(sys.argv[2][1:])
 
 xbmcplugin.setContent(addon_handle, 'songs')
 
-my_stations = {}
+my_stations = dict()
 profile = xbmcvfs.translatePath(addon.getAddonInfo('profile'))
 mystations_path = profile+'/mystations.json'
 
@@ -56,7 +57,7 @@ def get_radiobrowser_base_urls():
 def LANGUAGE(id):
     # return id
     # return "undefined"
-    return addon.getLocalizedString(id).encode('utf-8')
+    return addon.getLocalizedString(id)
 
 def build_url(query):
     return base_url + '?' + urllib.parse.urlencode(query)
@@ -216,7 +217,7 @@ elif mode[0] == 'tags':
                 li.setArt({'icon':'DefaultFolder.png'})
                 xbmcplugin.addDirectoryItem(handle=addon_handle, url=localUrl, listitem=li, isFolder=True)
             except Exception as e:
-                xbmc.err(e)
+                xbmc.log(e.__str__(), xbmc.LOGERROR)
                 pass
 
     xbmcplugin.endOfDirectory(addon_handle)
