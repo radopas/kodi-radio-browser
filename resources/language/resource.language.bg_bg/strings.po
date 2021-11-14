@@ -51,7 +51,7 @@ msgstr "Търсене..."
 
 msgctxt "#32008"
 msgid "My Stations"
-msgstr "Моите станции"
+msgstr "Мой списък"
 
 msgctxt "#32009"
 msgid "Remove Station"
@@ -59,7 +59,7 @@ msgstr "Премахване на станцията"
 
 msgctxt "#32010"
 msgid "Add Station"
-msgstr "Добавете станция"
+msgstr "Добави към Моя списък"
 
 msgctxt "#32011"
 msgid "Search Station"
