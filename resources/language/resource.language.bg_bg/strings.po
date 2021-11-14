@@ -58,7 +58,7 @@ msgid "Remove Station"
 msgstr "Премахване на станцията"
 
 msgctxt "#32010"
-msgid "Add Station"
+msgid "Add to My stations"
 msgstr "Добави към Моя списък"
 
 msgctxt "#32011"
