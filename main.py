@@ -26,7 +26,7 @@ mystations_path = profile+'/mystations.json'
 import socket
 import random
 
-def get_radiobrowser_base_urls():
+def get_radiobrowser_base_urls() -> list:
     """
     Get all base urls of all currently available radiobrowser servers
 
@@ -54,15 +54,15 @@ def get_radiobrowser_base_urls():
     xbmc.log("Found hosts: " + ",".join(hosts))
     return list(["https://" + x for x in hosts])
 
-def LANGUAGE(id):
+def LANGUAGE(id: int) -> str:
     # return id
     # return "undefined"
     return addon.getLocalizedString(id)
 
-def build_url(query):
+def build_url(query: dict) -> str:
     return base_url + '?' + urllib.parse.urlencode(query)
 
-def addLink(stationuuid, name, url, favicon, bitrate):
+def addLink(stationuuid: str, name: str, url: str, favicon: str, bitrate: str):
     li = xbmcgui.ListItem(name)
     li.setArt({'icon':favicon})
     li.setProperty('IsPlayable', 'true')
@@ -104,7 +104,7 @@ def downloadFile(uri, param):
     response.close()
     return data
 
-def downloadApiFile(path, param):
+def downloadApiFile(path: str, param):
     """
     Download file with relative url from a random api server.
     Retry with other api servers if failed.
@@ -128,24 +128,24 @@ def downloadApiFile(path, param):
         i += 1
     return ""
 
-def addPlayableLink(data):
+def addPlayableLink(data: str):
     dataDecoded = json.loads(data)
     for station in dataDecoded:
         addLink(station['stationuuid'], station['name'], station['url'], station['favicon'], station['bitrate'])
 
-def readFile(filepath):
+def readFile(filepath: str):
     with open(filepath, 'r') as read_file:
         return json.load(read_file)
 
-def writeFile(filepath, data):
+def writeFile(filepath: str, data):
     with open(filepath, 'w') as write_file:
         return json.dump(data, write_file)
 
-def addToMyStations(stationuuid, name, url, favicon, bitrate):
+def addToMyStations(stationuuid: str, name: str, url: str, favicon: str, bitrate: str):
     my_stations[stationuuid] = {'stationuuid': stationuuid, 'name': name, 'url': url, 'bitrate': bitrate, 'favicon': favicon}
     writeFile(mystations_path, my_stations)
 
-def delFromMyStations(stationuuid):
+def delFromMyStations(stationuuid: str):
     if stationuuid in my_stations:
         del my_stations[stationuuid]
         writeFile(mystations_path, my_stations)
@@ -293,7 +293,7 @@ elif mode[0] == 'stations':
 
 elif mode[0] == 'play':
     stationuuid = args['stationuuid'][0]
-    data = downloadApiFile('/json/url/' + str(stationuuid),None)
+    data = downloadApiFile('/json/url/' + str(stationuuid), None)
     dataDecoded = json.loads(data)
     uri = dataDecoded['url']
     xbmcplugin.setResolvedUrl(addon_handle, True, xbmcgui.ListItem(path=uri))
