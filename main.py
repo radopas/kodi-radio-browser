@@ -163,6 +163,16 @@ else:
 
 mode = args.get('mode', None)
 
+
+def process_search_params(input: str) -> dict:
+    #when search has more than one word they don't search inner words with wildcards, so add % to make sure every word is wildcarded
+    input_with_wildcards = input.replace(" ", "% ");
+    #don't encode here, as it will be urllib.parse.quote latter and will double encode it
+    #urllib.parse.urlencode({"limit":20, "hidebroken": True, "order":"clickcount", "reverse": True, "name": input_with_wildcards})
+    # parameters_string = f"limit=20&hidebroken=true&order=clickcount&reverse=true&name={input_with_wildcards}"
+    parameters = {"limit":20, "hidebroken": True, "order":"clickcount", "reverse": True, "name": input_with_wildcards}
+    return parameters
+
 if mode is None:
     if len(my_stations) > 0:
         # if there is any elements in My stations, then put the list on top, else it is at the end
@@ -303,8 +313,10 @@ elif mode[0] == 'search':
     dialog = xbmcgui.Dialog()
     d = dialog.input(LANGUAGE(32011), type=xbmcgui.INPUT_ALPHANUM)
 
-    url = '/json/stations/byname/'+d
-    data = downloadApiFile(url, None)
+    search_params = process_search_params(d)
+
+    url = '/json/stations/search'
+    data = downloadApiFile(url, search_params)
     addPlayableLink(data)
 
     xbmcplugin.endOfDirectory(addon_handle)
