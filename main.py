@@ -90,7 +90,7 @@ def downloadFile(uri, param):
     """
     paramEncoded = None
     if param != None:
-        paramEncoded = json.dumps(param)
+        paramEncoded = json.dumps(param).encode("utf-8")
         xbmc.log('Request to ' + uri + ' Params: ' + ','.join(param))
     else:
         xbmc.log('Request to ' + uri)
