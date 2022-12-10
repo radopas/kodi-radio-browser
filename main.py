@@ -9,6 +9,9 @@ import xbmcvfs
 import json
 import base64
 import xbmc
+import socket
+import random
+
 
 addonID = 'plugin.audio.radiobrowser'
 addon = xbmcaddon.Addon(id=addonID)
@@ -23,8 +26,6 @@ my_stations = dict()
 profile = xbmcvfs.translatePath(addon.getAddonInfo('profile'))
 mystations_path = profile+'/mystations.json'
 
-import socket
-import random
 
 def get_radiobrowser_base_urls() -> list:
     """
