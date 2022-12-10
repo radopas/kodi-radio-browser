@@ -167,9 +167,6 @@ mode = args.get('mode', None)
 def process_search_params(input: str) -> dict:
     #when search has more than one word they don't search inner words with wildcards, so add % to make sure every word is wildcarded
     input_with_wildcards = input.replace(" ", "% ");
-    #don't encode here, as it will be urllib.parse.quote latter and will double encode it
-    #urllib.parse.urlencode({"limit":20, "hidebroken": True, "order":"clickcount", "reverse": True, "name": input_with_wildcards})
-    # parameters_string = f"limit=20&hidebroken=true&order=clickcount&reverse=true&name={input_with_wildcards}"
     parameters = {"limit":20, "hidebroken": True, "order":"clickcount", "reverse": True, "name": input_with_wildcards}
     return parameters
 
